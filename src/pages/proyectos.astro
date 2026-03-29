@@ -1,0 +1,18 @@
+---
+// src/pages/proyectos.astro
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import ProyectosComponent from '../components/Proyectos.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Mis Proyectos | Daniel Cabañero">
+	<Header />
+	
+	<!-- Le damos un poco de padding arriba (pt-24) para que la cabecera no tape el título -->
+	<main class="pt-24 min-h-screen">
+		<ProyectosComponent />
+	</main>
+	
+	<Footer />
+</Layout>

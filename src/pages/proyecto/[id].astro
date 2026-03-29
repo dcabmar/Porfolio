@@ -1,0 +1,99 @@
+---
+// src/pages/proyecto/[id].astro
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+// 1. Aquí definimos todos tus proyectos y sus rutas
+export function getStaticPaths() {
+  const misProyectos = [
+    {
+      id: 'jumper', // Esta será la URL: tusitio.com/proyecto/app-ia
+      titulo: 'Jumper',
+      categoria: 'Programación/Multimedia',
+      descripcion: 'Desarrollo de un sistema basado en LLMs para la empresa Celéstica, capaz de leer, clasificar y extraer datos clave de miles de documentos técnicos en segundos.',
+      enlaceRepo: 'https://github.com/tu-usuario',
+      enlaceDemo: '#',
+      galeria: [
+        { tipo: 'imagen', url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000' },
+        { tipo: 'video', url: 'https://www.w3schools.com/html/mov_bbb.mp4' } // Puedes poner un enlace de Cloudinary o de tu carpeta public
+      ]
+    },
+    {
+      id: 'spot-publicitario', // URL: tusitio.com/proyecto/spot-publicitario
+      titulo: 'Spot Publicitario Interactivo',
+      categoria: 'Multimedia',
+      descripcion: 'Producción, grabación y posproducción de un spot comercial combinando técnicas tradicionales con generación de fondos mediante Inteligencia Artificial.',
+      enlaceRepo: null, // Si no tiene repositorio, ponemos null para que el botón no salga
+      enlaceDemo: 'https://youtube.com/...',
+      galeria: [
+        { tipo: 'imagen', url: 'https://images.unsplash.com/photo-1574717024453-354056a3df3f?q=80&w=1000' }
+      ]
+    }
+  ];
+
+  // Le pasamos los datos a Astro para que construya las páginas
+  return misProyectos.map((proyecto) => {
+    return {
+      params: { id: proyecto.id },
+      props: { proyecto },
+    };
+  });
+}
+
+// 2. Recibimos los datos del proyecto actual
+const { proyecto } = Astro.props;
+---
+
+<Layout title={`${proyecto.titulo} | Daniel Cabañero`}>
+    <Header />
+    
+    <main class="pt-32 pb-20 px-5 max-w-5xl mx-auto text-gray-300 min-h-screen">
+        
+        <!-- Cabecera del Proyecto -->
+        <header class="mb-12 border-b border-white/10 pb-8">
+            <span class="text-cyan-400 font-semibold tracking-wider uppercase text-sm">{proyecto.categoria}</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mt-3 mb-6">{proyecto.titulo}</h1>
+            
+            <p class="text-lg leading-relaxed mb-8">
+                {proyecto.descripcion}
+            </p>
+
+            <!-- Botones de Enlaces Dinámicos -->
+            <div class="flex gap-4">
+                {proyecto.enlaceRepo && (
+                    <a href={proyecto.enlaceRepo} target="_blank" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-medium rounded-lg transition-colors">
+                        Ver Repositorio
+                    </a>
+                )}
+                
+                {proyecto.enlaceDemo && (
+                    <a href={proyecto.enlaceDemo} target="_blank" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-lg border border-slate-700 transition-colors">
+                        Ver Proyecto Vivo
+                    </a>
+                )}
+            </div>
+        </header>
+
+        <!-- Carrusel Nativo Ligero -->
+        <section>
+            <h2 class="text-2xl font-bold text-white mb-6">Galería</h2>
+            <div class="flex overflow-x-auto gap-6 snap-x snap-mandatory pb-4 scrollbar-hide">
+                
+                {proyecto.galeria.map((media) => (
+                    <div class="snap-center shrink-0 w-full md:w-[80%] aspect-video rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black flex items-center justify-center">
+                        {media.tipo === 'imagen' ? (
+                            <img src={media.url} class="w-full h-full object-cover" alt={`Captura de ${proyecto.titulo}`} />
+                        ) : (
+                            <video src={media.url} controls class="w-full h-full max-h-full object-contain outline-none"></video>
+                        )}
+                    </div>
+                ))}
+
+            </div>
+        </section>
+
+    </main>
+
+    <Footer />
+</Layout>

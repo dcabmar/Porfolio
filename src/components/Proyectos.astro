@@ -1,0 +1,88 @@
+---
+// src/components/Proyectos.astro
+---
+
+<section id="proyectos" class="py-20 md:py-32">
+    <div class="max-w-6xl mx-auto px-5">
+        
+        <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-10 text-center relative inline-block left-1/2 -translate-x-1/2">
+            Mis Proyectos
+            <span class="absolute -bottom-3 left-0 w-full h-1 bg-cyan-500 rounded-full"></span>
+        </h2>
+
+        <!-- Botones de Filtro -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+            <button class="filter-btn active px-6 py-2 rounded-full font-medium transition-all bg-cyan-600 text-white" data-filter="all">Todos</button>
+            <button class="filter-btn px-6 py-2 rounded-full font-medium transition-all bg-white/5 text-gray-300 hover:bg-white/10" data-filter="programacion">Programación</button>
+            <button class="filter-btn px-6 py-2 rounded-full font-medium transition-all bg-white/5 text-gray-300 hover:bg-white/10" data-filter="multimedia">Multimedia</button>
+            <button class="filter-btn px-6 py-2 rounded-full font-medium transition-all bg-white/5 text-gray-300 hover:bg-white/10" data-filter="diseno">Diseño</button>
+            <button class="filter-btn px-6 py-2 rounded-full font-medium transition-all bg-white/5 text-gray-300 hover:bg-white/10" data-filter="otros">Otros</button>
+        </div>
+
+        <!-- Cuadrícula de Proyectos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+            
+            <!-- Proyecto 1: Programación -->
+            <a href="/proyecto/jumper" class="project-card group relative block overflow-hidden rounded-2xl aspect-video border border-white/10 shadow-lg" data-category="programacion multimedia">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" alt="Jumper" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-slate-950/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center">
+                    <h3 class="text-2xl font-bold text-white tracking-wide">Jumper</h3>
+                </div>
+            </a>
+
+            <!-- Proyecto 2: Multimedia -->
+            <a href="/proyecto/spot-publicitario" class="project-card group relative block overflow-hidden rounded-2xl aspect-video border border-white/10 shadow-lg" data-category="multimedia">
+                <img src="https://images.unsplash.com/photo-1574717024453-354056a3df3f?q=80&w=800&auto=format&fit=crop" alt="Edición Video" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-slate-950/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center">
+                    <h3 class="text-2xl font-bold text-white tracking-wide">Spot Publicitario</h3>
+                </div>
+            </a>
+
+            <!-- Proyecto 3: Diseño -->
+            <a href="/proyecto-3d" class="project-card group relative block overflow-hidden rounded-2xl aspect-video border border-white/10 shadow-lg" data-category="diseno">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" alt="Render 3D" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-slate-950/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center">
+                    <h3 class="text-2xl font-bold text-white tracking-wide">Render 3D Interactivo</h3>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Script para hacer funcionar los filtros -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.project-card');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 1. Quitar estilos activos de todos los botones
+                buttons.forEach(btn => {
+                    btn.classList.remove('bg-cyan-600', 'text-white');
+                    btn.classList.add('bg-white/5', 'text-gray-300');
+                });
+
+                // 2. Poner estilo activo al botón clicado
+                button.classList.remove('bg-white/5', 'text-gray-300');
+                button.classList.add('bg-cyan-600', 'text-white');
+
+                // 3. Filtrar las tarjetas
+                const filterValue = button.getAttribute('data-filter');
+
+                cards.forEach(card => {
+                    const categoriasDelProyecto = card.getAttribute('data-category').split(' ');
+                    if (filterValue === 'all' || categoriasDelProyecto.includes(filterValue)) {
+                        card.style.display = 'block'; // Mostrar
+                        // Pequeña animación de opacidad para que no sea tan brusco
+                        card.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, fill: 'forwards' });
+                    } else {
+                        card.style.display = 'none'; // Ocultar
+                    }
+                });
+            });
+        });
+    });
+</script>

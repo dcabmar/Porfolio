@@ -1,5 +1,12 @@
 ---
 // src/components/Header.astro
+
+// Obtenemos la ruta actual en la que está el usuario
+const pathname = Astro.url.pathname;
+
+// Creamos unas variables booleanas (verdadero/falso) para saber dónde estamos
+const esInicio = pathname === '/' || pathname === '';
+const esProyectos = pathname.startsWith('/proyectos');
 ---
 
 <header class="bg-slate-950/80 py-4 border-b border-white/10 backdrop-blur-md fixed w-full top-0 z-50">
@@ -7,14 +14,31 @@
         
         <div class="flex flex-col text-white">
             <span class="text-xl font-bold underline decoration-2 decoration-cyan-400">Daniel Cabañero Martínez</span>
-            <span class="text-sm font-medium text-gray-400">Desarrollador Multimedia | Especialista en IA | Artista Multidisciplinar</span>
+            <span class="text-sm font-medium text-gray-400">Portafolio Creativo</span>
         </div>
         
         <nav>
             <ul class="flex gap-6 font-semibold text-gray-300">
-                <li><a href="#inicio" class="text-cyan-400 border-b-2 border-cyan-400 pb-1">Inicio</a></li>
-                <li><a href="#proyectos" class="hover:text-cyan-400 transition-colors pb-1">Proyectos</a></li>
-                <li><a href="#contacto" class="hover:text-cyan-400 transition-colors pb-1">Contacto</a></li>
+                <!-- Si esInicio es true, pintamos el subrayado cian. Si no, lo dejamos normal -->
+                <li>
+                    <a href="/" class={`transition-colors pb-1 ${esInicio ? 'text-cyan-400 border-b-2 border-cyan-400' : 'hover:text-cyan-400'}`}>
+                        Inicio
+                    </a>
+                </li>
+                
+                <!-- Lo mismo para Proyectos -->
+                <li>
+                    <a href="/proyectos" class={`transition-colors pb-1 ${esProyectos ? 'text-cyan-400 border-b-2 border-cyan-400' : 'hover:text-cyan-400'}`}>
+                        Proyectos
+                    </a>
+                </li>
+                
+                <!-- Contacto es un ancla a la página de inicio, así que lo dejamos como hover simple -->
+                <li>
+                    <a href="/#contacto" class="hover:text-cyan-400 transition-colors pb-1">
+                        Contacto
+                    </a>
+                </li>
             </ul>
         </nav>
         
