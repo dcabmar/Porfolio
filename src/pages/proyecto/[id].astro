@@ -11,12 +11,34 @@ export function getStaticPaths() {
       id: 'jumper', // Esta será la URL: tusitio.com/proyecto/app-ia
       titulo: 'Jumper',
       categoria: 'Programación/Multimedia',
-      descripcion: 'Desarrollo de un sistema basado en LLMs para la empresa Celéstica, capaz de leer, clasificar y extraer datos clave de miles de documentos técnicos en segundos.',
-      enlaceRepo: 'https://github.com/tu-usuario',
-      enlaceDemo: '#',
+      descripcion: 'He aquí nuestro proyecto de final de curso de primero de carrera. Este unía los conocimientos de varias asignaturas del año: programación, arquitectura de redes, física y matemáticas. Creamos una aplicación con Python que se comunica con otra aplicación móvil y representa los datos de diversas formas. En el video, de cuya edición me encargué personalmente, hay más detalles de la aplicación.',
+      //enlaceRepo: 'https://github.com/tu-usuario',
+      //enlaceDemo: '#',
       galeria: [
-        { tipo: 'imagen', url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000' },
-        { tipo: 'video', url: 'https://www.w3schools.com/html/mov_bbb.mp4' } // Puedes poner un enlace de Cloudinary o de tu carpeta public
+        { tipo: 'youtube', url: 'https://www.youtube.com/embed/Ho4YbvrDhwc?si=kkWlAEtVw5Lmtizm' } 
+      ]
+    },
+    {
+      id: 'carcassone', // Esta será la URL: tusitio.com/proyecto/app-ia
+      titulo: 'Recreación Web del Carcassonne',
+      categoria: 'Programación Web',
+      descripcion: 'Para un proyecto en grupo de segundo de carrera decidimos convertir un juego de mesa en una pagina web y optamos por el Carcassonne. Este proyecto fue un reto importante para los conocimientos que teníamos entonces. Pero tuvo un resultado satisfactorio.',
+      enlaceRepo: 'https://github.com/ToniTormo/TecWeb_P-Final/tree/main',
+      //enlaceDemo: '#',
+      galeria: [
+        { tipo: 'youtube', url: 'https://www.youtube.com/embed/UFAtFWs1pt8?si=k7sREzf0OetUSmA1' } 
+      ]
+    },
+    {
+      id: 'clicker', // Esta será la URL: tusitio.com/proyecto/app-ia
+      titulo: 'ETSIT Clicker',
+      categoria: 'Programación',
+      descripcion: 'En segundo de carrera diseñé y programé una aplicación de móvil en Android Studio usando Java. Opté por hacer un juego del estilo Cookie Clicker pero inspirado en el proceso de titulación de mi carrera. El archivo apk está en Github por si queréis probarlo.',
+      enlaceRepo: 'https://github.com/dcabmar/GTDM-Clicker',
+      //enlaceDemo: '#',
+      galeria: [
+        { tipo: 'imagen', url: 'https://res.cloudinary.com/dzjo5zpmz/image/upload/v1774891610/Clicker1_oi39ji.jpg' },
+        {tipo: 'imagen', url: 'https://res.cloudinary.com/dzjo5zpmz/image/upload/v1774891610/Clicker2_jx3xr5.jpg'} 
       ]
     },
     {
@@ -80,13 +102,31 @@ const { proyecto } = Astro.props;
             <h2 class="text-2xl font-bold text-white mb-6">Galería</h2>
             <div class="flex overflow-x-auto gap-6 snap-x snap-mandatory pb-4 scrollbar-hide">
                 
-                {proyecto.galeria.map((media) => (
+                {proyecto.galeria?.map((media) => (
                     <div class="snap-center shrink-0 w-full md:w-[80%] aspect-video rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black flex items-center justify-center">
-                        {media.tipo === 'imagen' ? (
-                            <img src={media.url} class="w-full h-full object-cover" alt={`Captura de ${proyecto.titulo}`} />
-                        ) : (
+                        
+                        {/* 1. Si es una IMAGEN */}
+                        {media.tipo === 'imagen' && (
+                            <img src={media.url} class="w-full h-full object-contain" alt={`Captura de ${proyecto.titulo}`} />
+                        )}
+
+                        {/* 2. Si es un VÍDEO PURO (.mp4) */}
+                        {media.tipo === 'video' && (
                             <video src={media.url} controls class="w-full h-full max-h-full object-contain outline-none"></video>
                         )}
+
+                        {/* 3. Si es de YOUTUBE */}
+                        {media.tipo === 'youtube' && (
+                            <iframe 
+                                class="w-full h-full"
+                                src={media.url} 
+                                title="YouTube video player" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        )}
+
                     </div>
                 ))}
 
